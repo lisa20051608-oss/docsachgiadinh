@@ -614,19 +614,33 @@
      * CONFIG
      ***********************/
     const CONFIG = {
-      WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyostrHYPjhyxuqt4LDV5oculAsWN5LOuuA_J7jnpMBpqxr_kq71cONjHoNFi0f0EuD/exec",
+      WEB_APP_URL: "https://script.google.com/macros/s/AKfycbzMqP8mu5ltDrjwiKsp0ccdm7EC5UD4mNlJFuZn8Qh0_8jUEhFCSsQZEyguTEg8XTS3mQ/exec",
       MAX_DAYS: 21,
       LEADERBOARD_TOP: 3,
       MIN_LEN: 15,
-     POKEMONS: [
-  { name: "Pikachu", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png", type: "Electric" },
-  { name: "Charmander", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png", type: "Fire" },
-  { name: "Bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png", type: "Grass" },
-  { name: "Squirtle", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png", type: "Water" },
-  { name: "Eevee", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png", type: "Normal" },
-  { name: "Snorlax", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png", type: "Normal" }
-]
-
+      QUOTES: [
+        { q: "Đọc sách là học suốt đời.", a: "Danh ngôn" },
+        { q: "Sách là ngọn đèn soi sáng trí tuệ.", a: "Danh ngôn" },
+        { q: "Một ngày không đọc là một ngày lùi lại.", a: "Danh ngôn" },
+        { q: "Đọc ít nhưng hiểu sâu.", a: "Danh ngôn" },
+        { q: "Tri thức bắt đầu từ thói quen đọc.", a: "Danh ngôn" },
+{ q: "Đọc sách là cách rẻ nhất để đi du lịch khắp thế giới.", a: "Mark Twain" },
+{ q: "Không có người bạn nào trung thành hơn một cuốn sách.", a: "Ernest Hemingway" },
+{ q: "Càng đọc nhiều, bạn càng biết nhiều; càng biết nhiều, bạn càng đi xa.", a: "Dr. Seuss" },
+{ q: "Một căn phòng không có sách giống như một cơ thể không có linh hồn.", a: "Cicero" },
+{ q: "Sách là phép màu di động của con người.", a: "Stephen King" },
+{ q: "Người không đọc sách chỉ sống một cuộc đời; người đọc sách sống ngàn cuộc đời.", a: "George R. R. Martin" },
+{ q: "Đọc sách cho trí óc cũng như tập thể dục cho cơ thể.", a: "Joseph Addison" },
+{ q: "Sách cho tôi một nơi để đi khi tôi không thể rời khỏi chỗ ngồi.", a: "Jhumpa Lahiri" },
+{ q: "Khi bạn dừng đọc, bạn bắt đầu tụt lại phía sau.", a: "Mark Twain" },
+{ q: "Một cuốn sách đúng lúc có thể thay đổi cả cuộc đời.", a: "Paulo Coelho" },
+{ q: "Học tập không bao giờ làm trí óc mệt mỏi.", a: "Leonardo da Vinci" },
+{ q: "Đọc sách hôm nay để dẫn đầu ngày mai.", a: "Margaret Fuller" },
+{ q: "Tri thức là sức mạnh thực sự của con người.", a: "Francis Bacon" },
+{ q: "Sách không chỉ dạy ta kiến thức mà còn dạy ta cách suy nghĩ.", a: "Albert Einstein" },
+{ q: "Đọc sách là đầu tư thầm lặng nhưng sinh lợi suốt đời.", a: "Warren Buffett" }
+      ]
+    };
 
     /***********************
      * STATE
@@ -896,20 +910,8 @@
       el("dayTitle").textContent = "Ngày " + day;
 
       // quote
-     const p = CFG.POKEMONS[Math.floor(Math.random() * CFG.POKEMONS.length)];
-
-quoteBox.innerHTML = `
-  <div style="text-align:center">
-    <img src="${p.img}" alt="${p.name}" style="width:120px;height:120px" />
-    <div style="font-size:18px;font-weight:700;margin-top:8px">
-      ${p.name}
-    </div>
-    <div style="font-size:14px;color:#666">
-      Type: ${p.type}
-    </div>
-  </div>
-`;
-
+      const q = CONFIG.QUOTES[Math.floor(Math.random()*CONFIG.QUOTES.length)];
+      el("quoteBox").innerHTML = `“${escapeHtml(q.q)}”<small>— ${escapeHtml(q.a)}</small>`;
 
       // preload content if already exists (shouldn't happen for current day, but keep safe)
       const old = (S.progress && S.progress.days && S.progress.days[String(day)]) ? (S.progress.days[String(day)].content || "") : "";
