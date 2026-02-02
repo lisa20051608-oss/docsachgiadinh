@@ -406,7 +406,7 @@
             <button class="pill primary" id="btnLogin">Đăng nhập →</button>
           </div>
           <div class="miniHelp">
-            Gợi ý: Nếu Sếp đang mở file HTML dạng <b>file://</b>, hệ thống sẽ dùng <b>JSONP</b> để lưu dữ liệu (không bị CORS).
+            Gợi ý: Hãy chăm chỉ đọc sách để nhận được nhiều thẻ pokemon nhé.
           </div>
         </div>
       </div>
@@ -481,8 +481,8 @@
             <button class="btn" id="btnFinish">Hoàn thành</button>
           </div>
           <div class="quote" id="quoteBox">
-            “Đọc sách là học suốt đời.”
-            <small>— Danh ngôn</small>
+            🎴 Thẻ Pokémon thưởng sẽ xuất hiện ở đây.
+            <small>Hoàn thành mỗi ngày để nhận 1 thẻ ngẫu nhiên</small>
           </div>
         </div>
       </div>
@@ -614,31 +614,31 @@
      * CONFIG
      ***********************/
     const CONFIG = {
-      WEB_APP_URL: "https://script.google.com/macros/s/AKfycbzMqP8mu5ltDrjwiKsp0ccdm7EC5UD4mNlJFuZn8Qh0_8jUEhFCSsQZEyguTEg8XTS3mQ/exec",
+      WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyostrHYPjhyxuqt4LDV5oculAsWN5LOuuA_J7jnpMBpqxr_kq71cONjHoNFi0f0EuD/exec",
       MAX_DAYS: 21,
       LEADERBOARD_TOP: 3,
       MIN_LEN: 15,
-      QUOTES: [
-        { q: "Đọc sách là học suốt đời.", a: "Danh ngôn" },
-        { q: "Sách là ngọn đèn soi sáng trí tuệ.", a: "Danh ngôn" },
-        { q: "Một ngày không đọc là một ngày lùi lại.", a: "Danh ngôn" },
-        { q: "Đọc ít nhưng hiểu sâu.", a: "Danh ngôn" },
-        { q: "Tri thức bắt đầu từ thói quen đọc.", a: "Danh ngôn" },
-{ q: "Đọc sách là cách rẻ nhất để đi du lịch khắp thế giới.", a: "Mark Twain" },
-{ q: "Không có người bạn nào trung thành hơn một cuốn sách.", a: "Ernest Hemingway" },
-{ q: "Càng đọc nhiều, bạn càng biết nhiều; càng biết nhiều, bạn càng đi xa.", a: "Dr. Seuss" },
-{ q: "Một căn phòng không có sách giống như một cơ thể không có linh hồn.", a: "Cicero" },
-{ q: "Sách là phép màu di động của con người.", a: "Stephen King" },
-{ q: "Người không đọc sách chỉ sống một cuộc đời; người đọc sách sống ngàn cuộc đời.", a: "George R. R. Martin" },
-{ q: "Đọc sách cho trí óc cũng như tập thể dục cho cơ thể.", a: "Joseph Addison" },
-{ q: "Sách cho tôi một nơi để đi khi tôi không thể rời khỏi chỗ ngồi.", a: "Jhumpa Lahiri" },
-{ q: "Khi bạn dừng đọc, bạn bắt đầu tụt lại phía sau.", a: "Mark Twain" },
-{ q: "Một cuốn sách đúng lúc có thể thay đổi cả cuộc đời.", a: "Paulo Coelho" },
-{ q: "Học tập không bao giờ làm trí óc mệt mỏi.", a: "Leonardo da Vinci" },
-{ q: "Đọc sách hôm nay để dẫn đầu ngày mai.", a: "Margaret Fuller" },
-{ q: "Tri thức là sức mạnh thực sự của con người.", a: "Francis Bacon" },
-{ q: "Sách không chỉ dạy ta kiến thức mà còn dạy ta cách suy nghĩ.", a: "Albert Einstein" },
-{ q: "Đọc sách là đầu tư thầm lặng nhưng sinh lợi suốt đời.", a: "Warren Buffett" }
+      POKEMONS: [
+        { id: 25, name: "Pikachu", type: "Electric", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" },
+        { id: 4, name: "Charmander", type: "Fire", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png" },
+        { id: 1, name: "Bulbasaur", type: "Grass/Poison", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" },
+        { id: 7, name: "Squirtle", type: "Water", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png" },
+        { id: 133, name: "Eevee", type: "Normal", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png" },
+        { id: 39, name: "Jigglypuff", type: "Fairy", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png" },
+        { id: 52, name: "Meowth", type: "Normal", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/52.png" },
+        { id: 54, name: "Psyduck", type: "Water", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png" },
+        { id: 63, name: "Abra", type: "Psychic", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png" },
+        { id: 92, name: "Gastly", type: "Ghost/Poison", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/92.png" },
+        { id: 147, name: "Dratini", type: "Dragon", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png" },
+        { id: 143, name: "Snorlax", type: "Normal", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png" },
+        { id: 104, name: "Cubone", type: "Ground", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/104.png" },
+        { id: 58, name: "Growlithe", type: "Fire", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/58.png" },
+        { id: 37, name: "Vulpix", type: "Fire", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/37.png" },
+        { id: 10, name: "Caterpie", type: "Bug", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png" },
+        { id: 129, name: "Magikarp", type: "Water", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png" },
+        { id: 66, name: "Machop", type: "Fighting", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/66.png" },
+        { id: 74, name: "Geodude", type: "Rock/Ground", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/74.png" },
+        { id: 150, name: "Mewtwo", type: "Psychic", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png" }
       ]
     };
 
@@ -910,8 +910,16 @@
       el("dayTitle").textContent = "Ngày " + day;
 
       // quote
-      const q = CONFIG.QUOTES[Math.floor(Math.random()*CONFIG.QUOTES.length)];
-      el("quoteBox").innerHTML = `“${escapeHtml(q.q)}”<small>— ${escapeHtml(q.a)}</small>`;
+      const p = CONFIG.POKEMONS[Math.floor(Math.random()*CONFIG.POKEMONS.length)];
+      el("quoteBox").innerHTML = `
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img src="${p.img}" alt="${escapeHtml(p.name)}" style="width:72px;height:72px;image-rendering:pixelated;flex:0 0 auto;" />
+          <div style="font-style:normal;">
+            <div style="font-weight:900;">🎴 Thẻ Pokémon thưởng: ${escapeHtml(p.name)}</div>
+            <small style="display:block;margin-top:6px;">Hệ: ${escapeHtml(p.type)}</small>
+          </div>
+        </div>
+      `;
 
       // preload content if already exists (shouldn't happen for current day, but keep safe)
       const old = (S.progress && S.progress.days && S.progress.days[String(day)]) ? (S.progress.days[String(day)].content || "") : "";
