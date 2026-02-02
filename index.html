@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Dare to Read – Hành trình 21 ngày đọc sách</title>
+  <style>
+    :root{
+      --vtb-blue:#003A8C;
+      --vtb-cyan:#00AEEF;
+      --vtb-red:#E60012;
+
+      --ink:#0b1220;
+      --muted: rgba(11,18,32,.60);
+
+      --card: rgba(255,255,255,.92);
+      --card2: rgba(255,255,255,.78);
+
+      --shadow: 0 18px 50px rgba(0,0,0,.18);
+      --radius: 18px;
+
+      --ok:#12b981;
+      --warn:#f59e0b;
+      --err:#ef4444;
+      --btn:#0b5cc7;
+      --btn2:#0a4ca6;
+    }
+
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);}
+    body{
+      background:
+        radial-gradient(1100px 700px at 20% 20%, rgba(0,174,239,.22), transparent 55%),
+        radial-gradient(900px 650px at 85% 15%, rgba(230,0,18,.16), transparent 55%),
+        linear-gradient(135deg, rgba(0,58,140,.85), rgba(0,174,239,.35) 40%, rgba(230,0,18,.20));
+      min-height:100vh;
+      padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    }
+
+    /* layout */
+    .wrap{
+      width: min(560px, 100%);
+      margin: 0 auto;
+      padding: 14px 12px 24px;
+      box-sizing: border-box;
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 18px;
+      padding: 10px 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.12);
+    }
+    .brand{display:flex; gap:10px; align-items:center;}
+    .logo{
+      width:36px;height:36px;border-radius:12px;
+      background: conic-gradient(from 220deg, var(--vtb-blue), var(--vtb-cyan), var(--vtb-red), var(--vtb-blue));
+      box-shadow: 0 10px 25px rgba(0,0,0,.18);
+      position:relative;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:9px;
+      border-radius:9px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.35);
+    }
+    .brand h1{font-size:15px; margin:0; line-height:1.15; color:#fff; letter-spacing:.2px;}
+    .brand p{font-size:12px; margin:2px 0 0; color: rgba(255,255,255,.78);}
+    .actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
+    .pill{
+      border: 1px solid rgba(255,255,255,.30);
+      background: rgba(255,255,255,.14);
+      color: #fff;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight: 650;
+      font-size: 12px;
+      cursor:pointer;
+      user-select:none;
+      transition: .15s ease;
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .pill:active{transform: translateY(1px);}
+    .pill.primary{background: rgba(255,255,255,.92); color:#0b1220; border-color: rgba(255,255,255,.85);}
+    .pill.danger{background: rgba(239,68,68,.92); border-color: rgba(239,68,68,.92);}
+    .pill.ghost{background: rgba(255,255,255,.10);}
+    .pill.small{padding:6px 9px; font-size:12px;}
+    .pill.disabled{opacity:.55; pointer-events:none;}
+
+    .card{
+      margin-top: 12px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.65);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardInner{padding:14px 14px 14px;}
+    .titleRow{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+    .titleRow h2{margin:0; font-size:18px;}
+    .subtitle{margin:6px 0 0; color: var(--muted); font-size:13px; line-height:1.35;}
+    .statsRow{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:10px;}
+    .stat{
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(11,18,32,.08);
+      border-radius: 16px;
+      padding:10px 10px;
+      min-height:56px;
+    }
+    .stat .k{font-size:11px; color: rgba(11,18,32,.62); font-weight:650;}
+    .stat .v{margin-top:4px; font-size:16px; font-weight:850;}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(11,18,32,.10);
+      background: rgba(255,255,255,.78);
+      font-weight:800;
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    /* Journey grid */
+    .section{margin-top:12px;}
+    .section h3{margin:0 0 8px; font-size:15px;}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    @media (max-width:420px){
+      .grid{grid-template-columns: repeat(3, 1fr);}
+    }
+    .day{
+      border-radius: 16px;
+      padding: 10px 10px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(11,18,32,.10);
+      cursor:pointer;
+      user-select:none;
+      position:relative;
+      min-height: 62px;
+      display:flex; flex-direction:column; justify-content:space-between;
+      transition:.12s ease;
+    }
+    .day:active{transform: translateY(1px);}
+    .day .d{font-weight:900; font-size:13px;}
+    .day .s{font-size:11px; color: rgba(11,18,32,.60); font-weight:700;}
+
+    .day.completed{
+      background: rgba(18,185,129,.14);
+      border-color: rgba(18,185,129,.30);
+    }
+    .tick{
+      position:absolute; top:8px; right:8px;
+      width:18px; height:18px; border-radius:999px;
+      background: rgba(18,185,129,.92);
+      display:none;
+      box-shadow: 0 10px 22px rgba(18,185,129,.25);
+    }
+    .tick:after{
+      content:"";
+      position:absolute;
+      left:6px; top:4px;
+      width:5px; height:9px;
+      border-right:2px solid #fff;
+      border-bottom:2px solid #fff;
+      transform: rotate(45deg);
+    }
+    .day.completed .tick{display:block;}
+
+    .day.current{
+      border-color: rgba(245,158,11,.55);
+      background: rgba(245,158,11,.10);
+      box-shadow: 0 0 0 4px rgba(245,158,11,.12);
+      animation: pulse 1.15s infinite ease-in-out;
+    }
+    @keyframes pulse{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.02);}
+      100%{transform:scale(1);}
+    }
+    .day.locked{
+      opacity:.45;
+      filter: grayscale(.1);
+      cursor:not-allowed;
+    }
+
+    /* Leaderboard */
+    .lbBox{
+      margin-top: 12px;
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(11,18,32,.10);
+      border-radius: 18px;
+      overflow:hidden;
+    }
+    .lbHead{
+      padding:10px 12px;
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      border-bottom:1px solid rgba(11,18,32,.08);
+      background: rgba(255,255,255,.55);
+    }
+    .lbHead .t{font-weight:900; font-size:13px;}
+    .lbHead .m{font-size:12px; color: rgba(11,18,32,.60); font-weight:700;}
+    .lbRow{
+      display:grid;
+      grid-template-columns: 34px 1fr 90px;
+      gap:10px;
+      padding:10px 12px;
+      border-bottom:1px solid rgba(11,18,32,.06);
+      align-items:center;
+    }
+    .lbRow:last-child{border-bottom:0;}
+    .lbRow .rk{font-weight:900;}
+    .lbRow .u{font-weight:850;}
+    .lbRow .p{
+      text-align:right;
+      font-weight:900;
+      display:flex; gap:8px; align-items:center; justify-content:flex-end;
+    }
+    .star{width:16px;height:16px; display:inline-block;}
+    .star svg{display:block;}
+
+    .meRank{
+      margin-top: 10px;
+      background: rgba(0,58,140,.08);
+      border: 1px solid rgba(0,58,140,.18);
+      border-radius: 16px;
+      padding: 10px 12px;
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+    }
+    .meRank .a{font-weight:900;}
+    .meRank .b{font-weight:900;}
+
+    /* Day screen */
+    .textarea{
+      width:100%;
+      border-radius: 16px;
+      border: 1px solid rgba(11,18,32,.12);
+      padding: 12px 12px;
+      box-sizing: border-box;
+      font-size: 14px;
+      line-height: 1.45;
+      min-height: 150px;
+      outline:none;
+      resize: vertical;
+      background: rgba(255,255,255,.92);
+    }
+    .btnRow{margin-top:10px; display:flex; justify-content:flex-end;}
+    .btn{
+      border:0;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight:900;
+      color:#fff;
+      background: linear-gradient(135deg, var(--btn), var(--btn2));
+      box-shadow: 0 14px 28px rgba(11,92,199,.20);
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .btn:active{transform: translateY(1px);}
+    .btn[disabled]{opacity:.6; pointer-events:none;}
+
+    /* Quote */
+    .quote{
+      margin-top:12px;
+      border-left: 4px solid rgba(0,174,239,.55);
+      background: rgba(0,174,239,.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: rgba(11,18,32,.78);
+      font-style: italic;
+    }
+    .quote small{display:block; margin-top:6px; font-style:normal; color: rgba(11,18,32,.55); font-weight:700;}
+
+    /* Admin */
+    .tabs{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .tab{
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(11,18,32,.10);
+      border-radius: 16px;
+      padding: 10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+      display:flex; gap:10px; align-items:center; justify-content:center;
+    }
+    .tab.active{
+      background: rgba(11,18,32,.90);
+      color:#fff;
+      border-color: rgba(11,18,32,.90);
+    }
+
+    .adminBox{margin-top:12px;}
+    .miniHelp{
+      margin:8px 0 0;
+      color: rgba(11,18,32,.62);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius: 16px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(11,18,32,.10);
+    }
+    .table th,.table td{
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(11,18,32,.06);
+      text-align:left;
+      font-size: 13px;
+    }
+    .table th{
+      font-size: 12px;
+      text-transform:none;
+      letter-spacing:.2px;
+      color: rgba(11,18,32,.65);
+      background: rgba(255,255,255,.55);
+      font-weight:900;
+    }
+    .table tr:last-child td{border-bottom:0;}
+    .right{text-align:right;}
+    .center{text-align:center;}
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      background: rgba(11,18,32,.92);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 12px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      opacity: 0;
+      pointer-events:none;
+      transition: .18s ease;
+      max-width: min(560px, calc(100vw - 24px));
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      z-index: 9999;
+    }
+    .toast.show{opacity:1; transform: translateX(-50%) translateY(-2px);}
+    .toast.ok{background: rgba(18,185,129,.92);}
+    .toast.err{background: rgba(239,68,68,.92);}
+    .toast.warn{background: rgba(245,158,11,.92); color:#111;}
+
+    /* Small utility */
+    .hide{display:none !important;}
+    .muted{color: rgba(11,18,32,.60);}
+    .divider{height:1px;background:rgba(11,18,32,.08); margin:12px 0;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Dare to Read</h1>
+          <p>Hành trình 21 ngày đọc sách</p>
+        </div>
+      </div>
+      <div class="actions" id="topActions">
+        <button class="pill ghost small hide" id="btnBack">← Quay lại</button>
+        <button class="pill ghost small hide" id="btnAdminTop">Admin</button>
+        <button class="pill ghost small hide" id="btnUserTag"></button>
+        <button class="pill danger small hide" id="btnLogout">Đăng xuất</button>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="card" id="screenLogin">
+      <div class="cardInner">
+        <div class="titleRow">
+          <div>
+            <h2>Đăng nhập</h2>
+            <div class="subtitle">Nhập tài khoản để bắt đầu hành trình. Mỗi ngày hoàn thành được <b>+1 điểm</b>.</div>
+          </div>
+          <span class="badge" title="Mỗi ngày +1 điểm">⭐ +1 / ngày</span>
+        </div>
+
+        <div class="section" style="margin-top:12px;">
+          <div class="subtitle" style="margin:0 0 8px;">Tài khoản</div>
+          <input id="inpUser" class="textarea" style="min-height:46px;resize:none;" placeholder="Ví dụ: demo01" />
+          <div style="height:10px"></div>
+          <div class="subtitle" style="margin:0 0 8px;">Mật khẩu</div>
+          <input id="inpPass" type="password" class="textarea" style="min-height:46px;resize:none;" placeholder="Nhập mật khẩu" />
+          <div style="display:flex; justify-content:space-between; gap:10px; align-items:center; margin-top:12px;">
+            <button class="pill ghost" id="btnOpenAdminFromLogin">🔧 Admin</button>
+            <button class="pill primary" id="btnLogin">Đăng nhập →</button>
+          </div>
+          <div class="miniHelp">
+            Gợi ý: Nếu Sếp đang mở file HTML dạng <b>file://</b>, hệ thống sẽ dùng <b>JSONP</b> để lưu dữ liệu (không bị CORS).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOME (PLAYER) -->
+    <div class="card hide" id="screenHome">
+      <div class="cardInner">
+        <div class="titleRow">
+          <div>
+            <h2 id="helloTitle">Xin chào!</h2>
+            <div class="subtitle">Hãy chọn ngày để ghi lại nội dung đã đọc nhé. Bạn chỉ được vào <b>đúng ngày hiện tại</b> (không nhảy ngày).</div>
+          </div>
+          <span class="badge" id="pointBadge">⭐ Điểm: 0</span>
+        </div>
+
+        <div class="statsRow">
+          <div class="stat">
+            <div class="k">🏅 Hạng của bạn</div>
+            <div class="v" id="meRank">-</div>
+          </div>
+          <div class="stat">
+            <div class="k">⭐ Điểm</div>
+            <div class="v" id="mePoint">0</div>
+          </div>
+          <div class="stat">
+            <div class="k">📅 Ngày hiện tại</div>
+            <div class="v" id="currentDay">1</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Hành trình 21 ngày</h3>
+          <div class="grid" id="dayGrid"></div>
+          <div class="miniHelp">
+            ✅ Ngày đã làm: tick xanh • 🟠 Ngày hiện tại: nhấp nháy • 🔒 Ngày chưa tới: mờ đi
+          </div>
+        </div>
+
+        <!-- Leaderboard MUST be under journey -->
+        <div class="section">
+          <div class="lbBox">
+            <div class="lbHead">
+              <div class="t">🏆 Bảng xếp hạng</div>
+              <div class="m" id="lbMeta">Top 3</div>
+            </div>
+            <div id="lbRows"></div>
+          </div>
+
+          <div class="meRank">
+            <div class="a">Thứ hạng của bạn</div>
+            <div class="b" id="meRankLine">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY SCREEN -->
+    <div class="card hide" id="screenDay">
+      <div class="cardInner">
+        <div class="titleRow">
+          <div>
+            <h2 id="dayTitle">Ngày 1</h2>
+            <div class="subtitle">Chia sẻ điều bạn tâm đắc trong nội dung đã đọc (tối thiểu 15 ký tự). Nhấn <b>Hoàn thành</b> để tự động lưu & quay về trang chủ.</div>
+          </div>
+          <span class="badge">⭐ Điểm: 1</span>
+        </div>
+
+        <div class="section" style="margin-top:12px;">
+          <textarea id="txtContent" class="textarea" placeholder="Hôm nay tôi đọc..."></textarea>
+          <div class="btnRow">
+            <button class="btn" id="btnFinish">Hoàn thành</button>
+          </div>
+          <div class="quote" id="quoteBox">
+            “Đọc sách là học suốt đời.”
+            <small>— Danh ngôn</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="card hide" id="screenAdmin">
+      <div class="cardInner">
+        <div class="titleRow">
+          <div>
+            <h2>🛠 Admin Console – Dare to Read</h2>
+            <div class="subtitle">Quản lý tài khoản (theo Sheet), cấu hình Web App, dashboard toàn bộ người chơi.</div>
+          </div>
+          <span class="badge" id="adminBadge">Admin</span>
+        </div>
+
+        <div class="section" style="margin-top:10px;">
+          <div class="subtitle" style="margin:0 0 8px;">Admin password</div>
+          <input id="inpAdminPass" type="password" class="textarea" style="min-height:46px;resize:none;" placeholder="Nhập admin password" />
+          <div class="miniHelp">Gợi ý: nếu muốn tạo account hàng loạt, chỉ cần dán danh sách vào Sheet <b>Accounts</b>.</div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="dash">📊 Dashboard</div>
+          <div class="tab" data-tab="acc">👥 Tài khoản</div>
+          <div class="tab" data-tab="web">🧾 Web App / Sheet</div>
+          <div class="tab" data-tab="reset">♻️ Reset</div>
+        </div>
+
+        <!-- DASH -->
+        <div class="adminBox" id="adminDash">
+          <div class="subtitle"><b>Thứ hạng</b> theo điểm & thời gian đạt mốc điểm (đạt sớm hơn xếp cao hơn khi bằng điểm).</div>
+
+          <div style="margin-top:10px;">
+            <table class="table" id="dashTable">
+              <thead>
+                <tr>
+                  <th style="width:42px;">#</th>
+                  <th>User</th>
+                  <th class="center" style="width:90px;">Điểm</th>
+                  <th style="width:160px;">Mốc điểm đạt lúc</th>
+                </tr>
+              </thead>
+              <tbody id="dashBody"></tbody>
+            </table>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3 style="margin:0 0 8px;">Số lượng người tham gia theo ngày</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Ngày</th>
+                <th class="right">Số người đã tham gia</th>
+              </tr>
+            </thead>
+            <tbody id="dayStatBody"></tbody>
+          </table>
+
+          <div class="miniHelp" id="dashMeta" style="margin-top:8px;"></div>
+
+          <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+            <button class="pill primary" id="btnReloadDash">Tải lại</button>
+          </div>
+        </div>
+
+        <!-- ACC -->
+        <div class="adminBox hide" id="adminAcc">
+          <div class="subtitle">
+            Tạo account theo lô: <b>chỉ cần add danh sách vào Sheet Accounts</b> (user | password | avatar).
+          </div>
+          <div style="margin-top:10px;">
+            <button class="pill primary" id="btnLoadAccounts">Tải danh sách Accounts</button>
+          </div>
+          <div style="margin-top:10px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th class="center" style="width:90px;">Avatar</th>
+                </tr>
+              </thead>
+              <tbody id="accBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- WEB -->
+        <div class="adminBox hide" id="adminWeb">
+          <div class="subtitle">
+            Web App URL đang dùng (copy đúng URL vào HTML). Nên deploy: <b>Execute as: Me</b> và <b>Who has access: Anyone</b>.
+          </div>
+
+          <div class="section" style="margin-top:10px;">
+            <div class="subtitle" style="margin:0 0 8px;">Web App URL</div>
+            <input id="inpWebAppUrl" class="textarea" style="min-height:46px;resize:none;" />
+            <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+              <button class="pill primary" id="btnCopyUrl">Copy URL</button>
+              <button class="pill ghost" id="btnTestPing">Test ping</button>
+              <button class="pill ghost" id="btnTestDash">Test dashboard</button>
+            </div>
+            <div class="miniHelp" id="webHint" style="margin-top:8px;"></div>
+          </div>
+        </div>
+
+        <!-- RESET -->
+        <div class="adminBox hide" id="adminReset">
+          <div class="subtitle">
+            Reset progress theo user (xóa log của user trong Sheet Data). Dùng khi cần.
+          </div>
+          <div style="margin-top:10px;">
+            <input id="inpResetUser" class="textarea" style="min-height:46px;resize:none;" placeholder="Nhập user cần reset (vd: demo01)" />
+            <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+              <button class="pill danger" id="btnResetUser">Reset user</button>
+            </div>
+            <div class="miniHelp muted">Lưu ý: thao tác này sẽ xóa toàn bộ dòng của user trong Sheet Data.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /***********************
+     * CONFIG
+     ***********************/
+    const CONFIG = {
+      WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyostrHYPjhyxuqt4LDV5oculAsWN5LOuuA_J7jnpMBpqxr_kq71cONjHoNFi0f0EuD/exec",
+      MAX_DAYS: 21,
+      LEADERBOARD_TOP: 3,
+      MIN_LEN: 15,
+     POKEMONS: [
+  { name: "Pikachu", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png", type: "Electric" },
+  { name: "Charmander", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png", type: "Fire" },
+  { name: "Bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png", type: "Grass" },
+  { name: "Squirtle", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png", type: "Water" },
+  { name: "Eevee", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png", type: "Normal" },
+  { name: "Snorlax", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png", type: "Normal" }
+]
+
+
+    /***********************
+     * STATE
+     ***********************/
+    const S = {
+      user: "",
+      avatar: "M",
+      progress: null, // {points, days}
+      currentDay: 1,
+      adminPass: ""
+    };
+
+    /***********************
+     * DOM
+     ***********************/
+    const el = (id)=>document.getElementById(id);
+    const screenLogin = el("screenLogin");
+    const screenHome  = el("screenHome");
+    const screenDay   = el("screenDay");
+    const screenAdmin = el("screenAdmin");
+
+    const btnBack   = el("btnBack");
+    const btnLogout = el("btnLogout");
+    const btnAdminTop = el("btnAdminTop");
+    const btnUserTag = el("btnUserTag");
+
+    const toast = el("toast");
+
+    /***********************
+     * Toast
+     ***********************/
+    let toastTimer = null;
+    function showToast(msg, type=""){
+      toast.className = "toast show " + (type || "");
+      toast.textContent = msg;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>{ toast.className = "toast"; }, 1600);
+    }
+
+    /***********************
+     * JSONP helper (works for file:// and avoids CORS)
+     ***********************/
+    function jsonp(url, params = {}) {
+      return new Promise((resolve, reject) => {
+        const cbName = "cb_" + Date.now() + "_" + Math.floor(Math.random()*100000);
+        const qs = new URLSearchParams();
+        Object.entries(params).forEach(([k,v]) => {
+          if (v === undefined || v === null) return;
+          qs.set(k, String(v));
+        });
+        qs.set("callback", cbName);
+
+        const src = url + (url.includes("?") ? "&" : "?") + qs.toString();
+        const script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+
+        const timeout = setTimeout(() => {
+          cleanup();
+          reject(new Error("Timeout"));
+        }, 20000);
+
+        window[cbName] = (data) => {
+          clearTimeout(timeout);
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = () => {
+          clearTimeout(timeout);
+          cleanup();
+          reject(new Error("JSONP error"));
+        };
+
+        function cleanup(){
+          try { delete window[cbName]; } catch(e){ window[cbName]=undefined; }
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        document.body.appendChild(script);
+      });
+    }
+
+    function apiGet(action, params = {}) {
+      return jsonp(CONFIG.WEB_APP_URL, { action, ...params });
+    }
+
+    function apiSave(user, day, content) {
+      // MUST use GET save for no-CORS (cách 2)
+      return jsonp(CONFIG.WEB_APP_URL, { action:"save", user, day, content });
+    }
+
+    function apiPostJSON(body){
+      // Some browsers block fetch from file://; keep only for optional admin reset.
+      return fetch(CONFIG.WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type":"application/json" },
+        body: JSON.stringify(body)
+      }).then(r=>r.json());
+    }
+
+    /***********************
+     * Session storage
+     ***********************/
+    function loadSession(){
+      const raw = localStorage.getItem("d2r_session_v3");
+      if (!raw) return false;
+      try{
+        const j = JSON.parse(raw);
+        if (j && j.user){
+          S.user = j.user;
+          S.avatar = j.avatar || "M";
+          return true;
+        }
+      }catch(e){}
+      return false;
+    }
+    function saveSession(){
+      localStorage.setItem("d2r_session_v3", JSON.stringify({ user:S.user, avatar:S.avatar }));
+    }
+    function clearSession(){
+      localStorage.removeItem("d2r_session_v3");
+      S.user = "";
+      S.avatar = "M";
+      S.progress = null;
+      S.currentDay = 1;
+    }
+
+    /***********************
+     * Screen helpers
+     ***********************/
+    function setTopActions(mode){
+      // mode: login | home | day | admin
+      btnBack.classList.toggle("hide", !(mode==="day" || mode==="admin"));
+      btnLogout.classList.toggle("hide", !(mode==="home" || mode==="day" || mode==="admin"));
+      btnAdminTop.classList.toggle("hide", !(mode==="home"));
+      btnUserTag.classList.toggle("hide", !(mode==="home" || mode==="day"));
+      if (mode==="home" || mode==="day"){
+        btnUserTag.textContent = "👤 " + S.user;
+      }
+    }
+    function showScreen(name){
+      screenLogin.classList.add("hide");
+      screenHome.classList.add("hide");
+      screenDay.classList.add("hide");
+      screenAdmin.classList.add("hide");
+
+      if (name==="login"){ screenLogin.classList.remove("hide"); setTopActions("login"); }
+      if (name==="home"){ screenHome.classList.remove("hide"); setTopActions("home"); }
+      if (name==="day"){ screenDay.classList.remove("hide"); setTopActions("day"); }
+      if (name==="admin"){ screenAdmin.classList.remove("hide"); setTopActions("admin"); }
+    }
+
+    /***********************
+     * Business: progress/current day rule
+     * - Không nhảy ngày: chỉ cho vào đúng currentDay (ngày nhỏ nhất chưa hoàn thành).
+     ***********************/
+    function computeCurrentDay(progress){
+      const done = new Set(Object.keys((progress && progress.days) || {}).map(k => Number(k)));
+      for (let d=1; d<=CONFIG.MAX_DAYS; d++){
+        if (!done.has(d)) return d;
+      }
+      return CONFIG.MAX_DAYS; // all done -> keep last
+    }
+
+    /***********************
+     * Render: Home
+     ***********************/
+    async function loadHome(){
+      showScreen("home");
+      el("helloTitle").innerHTML = `Xin chào, <b>${escapeHtml(S.user)}</b> ✨`;
+      btnAdminTop.classList.remove("hide");
+
+      showToast("Đang tải dữ liệu...", "warn");
+
+      // progress
+      const res = await apiGet("get", { user: S.user }).catch(()=>null);
+      if (!res || !res.ok){
+        showToast("Không tải được progress", "err");
+        return;
+      }
+      S.progress = res.progress || { points:0, days:{} };
+      S.currentDay = computeCurrentDay(S.progress);
+
+      // leaderboard
+      const lb = await apiGet("leaderboard", { user: S.user, top: CONFIG.LEADERBOARD_TOP }).catch(()=>null);
+
+      renderHome(S.progress, lb);
+      showToast("Sẵn sàng", "ok");
+    }
+
+    function renderHome(progress, lb){
+      const points = Number(progress.points || 0) || 0;
+      el("pointBadge").textContent = `⭐ Điểm: ${points}`;
+      el("mePoint").textContent = String(points);
+      el("currentDay").textContent = String(S.currentDay);
+
+      // rank info
+      if (lb && lb.ok && lb.me){
+        el("meRank").textContent = lb.me.rank ? ("#" + lb.me.rank) : "-";
+        el("meRankLine").textContent = lb.me.rank ? (`Hạng #${lb.me.rank} • ${lb.me.points || 0} điểm`) : `Chưa có hạng`;
+      } else {
+        el("meRank").textContent = "-";
+        el("meRankLine").textContent = "-";
+      }
+
+      // grid days
+      const grid = el("dayGrid");
+      grid.innerHTML = "";
+      const done = new Set(Object.keys(progress.days||{}).map(k=>Number(k)));
+      for (let d=1; d<=CONFIG.MAX_DAYS; d++){
+        const isDone = done.has(d);
+        const isCurrent = (d === S.currentDay);
+        const locked = (!isCurrent); // only current day allowed
+
+        const box = document.createElement("div");
+        box.className = "day" + (isDone ? " completed" : "") + (isCurrent ? " current" : "") + (locked ? " locked" : "");
+        box.innerHTML = `
+          <div class="tick" aria-hidden="true"></div>
+          <div class="d">Ngày ${d}</div>
+          <div class="s">${isDone ? "Đã hoàn thành" : (isCurrent ? "Vào ngày này" : "Chưa tới")}</div>
+        `;
+        box.addEventListener("click", () => {
+          if (locked) {
+            showToast("Bạn chỉ được vào đúng ngày hiện tại", "warn");
+            return;
+          }
+          openDay(d);
+        });
+        grid.appendChild(box);
+      }
+
+      // leaderboard under journey
+      el("lbMeta").textContent = `Top ${CONFIG.LEADERBOARD_TOP}`;
+      const rows = el("lbRows");
+      rows.innerHTML = "";
+
+      if (lb && lb.ok && Array.isArray(lb.top) && lb.top.length){
+        lb.top.forEach((it, idx) => {
+          const r = document.createElement("div");
+          r.className = "lbRow";
+          r.innerHTML = `
+            <div class="rk">${idx+1}</div>
+            <div class="u">${escapeHtml(it.user || "")}</div>
+            <div class="p">
+              <span class="star">${starSvg()}</span>
+              <span>${Number(it.points||0)}</span>
+            </div>
+          `;
+          rows.appendChild(r);
+        });
+      } else {
+        const r = document.createElement("div");
+        r.className = "lbRow";
+        r.innerHTML = `<div class="rk">-</div><div class="u muted">Chưa có dữ liệu</div><div class="p">-</div>`;
+        rows.appendChild(r);
+      }
+    }
+
+    /***********************
+     * Render: Day screen
+     ***********************/
+    function openDay(day){
+      showScreen("day");
+      // IMPORTANT: re-enable finish button for the new day
+      el("btnFinish").disabled = false;
+      el("dayTitle").textContent = "Ngày " + day;
+
+      // quote
+     const p = CFG.POKEMONS[Math.floor(Math.random() * CFG.POKEMONS.length)];
+
+quoteBox.innerHTML = `
+  <div style="text-align:center">
+    <img src="${p.img}" alt="${p.name}" style="width:120px;height:120px" />
+    <div style="font-size:18px;font-weight:700;margin-top:8px">
+      ${p.name}
+    </div>
+    <div style="font-size:14px;color:#666">
+      Type: ${p.type}
+    </div>
+  </div>
+`;
+
+
+      // preload content if already exists (shouldn't happen for current day, but keep safe)
+      const old = (S.progress && S.progress.days && S.progress.days[String(day)]) ? (S.progress.days[String(day)].content || "") : "";
+      el("txtContent").value = old || "";
+
+      el("btnFinish").onclick = async () => {
+        const content = el("txtContent").value.trim();
+        if (content.length < CONFIG.MIN_LEN){
+          showToast(`Nội dung tối thiểu ${CONFIG.MIN_LEN} ký tự`, "warn");
+          return;
+        }
+        el("btnFinish").disabled = true;
+        showToast("Đang lưu...", "warn");
+
+        try{
+          const res = await apiSave(S.user, day, content);
+          if (!res || !res.ok){
+            showToast(res && res.error ? res.error : "Lưu thất bại", "err");
+            el("btnFinish").disabled = false;
+            return;
+          }
+          showToast("Đã lưu! Quay về trang chủ…", "ok");
+
+          // reload home to reflect points/rank
+          setTimeout(()=> loadHome(), 350);
+        }catch(e){
+          showToast("Lưu thất bại (timeout)", "err");
+          el("btnFinish").disabled = false;
+        }
+      };
+
+      btnBack.onclick = () => loadHome();
+    }
+
+    /***********************
+     * Admin
+     ***********************/
+    function openAdmin(){
+      showScreen("admin");
+      el("inpAdminPass").value = S.adminPass || "";
+      el("inpWebAppUrl").value = CONFIG.WEB_APP_URL;
+
+      // tabs
+      document.querySelectorAll(".tab").forEach(t=>{
+        t.onclick = () => setAdminTab(t.dataset.tab);
+      });
+
+      el("btnReloadDash").onclick = () => adminLoadDashboard(true);
+      el("btnLoadAccounts").onclick = () => adminLoadAccounts();
+      el("btnCopyUrl").onclick = async () => {
+        try{ await navigator.clipboard.writeText(CONFIG.WEB_APP_URL); showToast("Đã copy URL", "ok"); }
+        catch(e){ showToast("Không copy được", "err"); }
+      };
+      el("btnTestPing").onclick = async () => {
+        showToast("Đang test ping…", "warn");
+        const r = await apiGet("ping", {}).catch(()=>null);
+        showToast(r && r.ok ? "Ping OK" : "Ping lỗi", (r && r.ok) ? "ok" : "err");
+      };
+      el("btnTestDash").onclick = async () => {
+        const pass = el("inpAdminPass").value.trim();
+        if (!pass){ showToast("Nhập admin password", "warn"); return; }
+        showToast("Đang test dashboard…", "warn");
+        const r = await apiGet("dashboard", { adminPass: pass }).catch(()=>null);
+        showToast(r && r.ok ? "Dashboard OK" : "Dashboard lỗi", (r && r.ok) ? "ok" : "err");
+      };
+
+      el("btnResetUser").onclick = async () => {
+        const pass = el("inpAdminPass").value.trim();
+        const u = normalizeUser(el("inpResetUser").value);
+        if (!pass){ showToast("Nhập admin password", "warn"); return; }
+        if (!u){ showToast("Nhập user cần reset", "warn"); return; }
+        showToast("Đang reset…", "warn");
+        try{
+          // POST may be blocked by file:// in some browsers; still attempt.
+          const r = await apiPostJSON({ action:"account.resetprogress", adminPass: pass, user: u }).catch(()=>null);
+          if (r && r.ok){
+            showToast("Reset OK", "ok");
+            adminLoadDashboard(true);
+          } else {
+            showToast("Reset lỗi (nếu mở file:// có thể bị chặn POST)", "err");
+          }
+        }catch(e){
+          showToast("Reset lỗi", "err");
+        }
+      };
+
+      // default tab & load
+      setAdminTab("dash");
+      adminLoadDashboard(false);
+    }
+
+    function setAdminTab(tab){
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab===tab));
+      el("adminDash").classList.toggle("hide", tab!=="dash");
+      el("adminAcc").classList.toggle("hide", tab!=="acc");
+      el("adminWeb").classList.toggle("hide", tab!=="web");
+      el("adminReset").classList.toggle("hide", tab!=="reset");
+    }
+
+    async function adminLoadDashboard(force){
+      const pass = el("inpAdminPass").value.trim();
+      S.adminPass = pass;
+      if (!pass){
+        showToast("Nhập admin password để xem dashboard", "warn");
+        el("dashBody").innerHTML = "";
+        el("dayStatBody").innerHTML = "";
+        el("dashMeta").textContent = "";
+        return;
+      }
+
+      showToast(force ? "Đang tải lại dashboard…" : "Đang tải dashboard…", "warn");
+
+      const r = await apiGet("dashboard", { adminPass: pass }).catch(()=>null);
+      if (!r || !r.ok){
+        showToast((r && r.error) ? r.error : "Không tải được dashboard", "err");
+        return;
+      }
+
+      // ranking rows
+      const ranking = Array.isArray(r.ranking) ? r.ranking : (Array.isArray(r.leaderboard) ? r.leaderboard : []);
+      const tb = el("dashBody");
+      tb.innerHTML = "";
+
+      if (ranking.length){
+        ranking.slice(0, 200).forEach((it, idx)=>{
+          const tr = document.createElement("tr");
+          const points = Number(it.points||0);
+          const reachedText = it.reachedAtText || (it.reachedAt ? fmtTime(it.reachedAt) : "-");
+          tr.innerHTML = `
+            <td><b>${idx+1}</b></td>
+            <td><b>${escapeHtml(it.user || it.user)}</b></td>
+            <td class="center">⭐ <b>${points}</b></td>
+            <td>${escapeHtml(reachedText)}</td>
+          `;
+          tb.appendChild(tr);
+        });
+      } else {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td colspan="4" class="muted">Chưa có dữ liệu</td>`;
+        tb.appendChild(tr);
+      }
+
+      // byDay stats
+      const stats = Array.isArray(r.dayStats) ? r.dayStats : (Array.isArray(r.byDay) ? r.byDay : []);
+      const sb = el("dayStatBody");
+      sb.innerHTML = "";
+      for (let d=1; d<=CONFIG.MAX_DAYS; d++){
+        const found = stats.find(x => Number(x.day)===d);
+        const count = found ? Number(found.count||0) : 0;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td><b>Ngày ${d}</b></td><td class="right"><b>${count}</b></td>`;
+        sb.appendChild(tr);
+      }
+
+      el("dashMeta").textContent =
+        `Tổng user: ${Number(r.totalUsers||0)} • Tổng log: ${Number(r.totalLogs||0)} • Cập nhật: ${fmtTime(r.generatedAt||Date.now())}`;
+
+      showToast("Dashboard OK", "ok");
+    }
+
+    async function adminLoadAccounts(){
+      const pass = el("inpAdminPass").value.trim();
+      S.adminPass = pass;
+      if (!pass){ showToast("Nhập admin password", "warn"); return; }
+
+      showToast("Đang tải Accounts…", "warn");
+      const r = await apiGet("account.list", { adminPass: pass }).catch(()=>null);
+      if (!r || !r.ok){
+        showToast((r && r.error) ? r.error : "Không tải được Accounts", "err");
+        return;
+      }
+      const body = el("accBody");
+      body.innerHTML = "";
+      const list = Array.isArray(r.accounts) ? r.accounts : [];
+      if (!list.length){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td colspan="2" class="muted">Chưa có account</td>`;
+        body.appendChild(tr);
+      } else {
+        list.slice(0, 300).forEach(a=>{
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td><b>${escapeHtml(a.user||"")}</b></td><td class="center"><b>${escapeHtml(a.avatar||"M")}</b></td>`;
+          body.appendChild(tr);
+        });
+      }
+      showToast("Accounts OK", "ok");
+    }
+
+    /***********************
+     * Login/Logout
+     ***********************/
+    el("btnLogin").onclick = async () => {
+      const user = normalizeUser(el("inpUser").value);
+      const pass = (el("inpPass").value || "").trim();
+      if (!user){ showToast("Nhập tài khoản", "warn"); return; }
+      if (!pass){ showToast("Nhập mật khẩu", "warn"); return; }
+
+      showToast("Đang đăng nhập…", "warn");
+      const r = await apiGet("auth", { user, password: pass }).catch(()=>null);
+
+      if (!r || !r.ok){
+        showToast((r && r.error) ? r.error : "Đăng nhập thất bại", "err");
+        return;
+      }
+
+      S.user = r.user;
+      S.avatar = r.avatar || "M";
+      saveSession();
+      showToast("Đăng nhập OK", "ok");
+      loadHome();
+    };
+
+    el("btnOpenAdminFromLogin").onclick = () => openAdmin();
+    btnAdminTop.onclick = () => openAdmin();
+
+    btnLogout.onclick = () => {
+      clearSession();
+      showToast("Đã đăng xuất", "ok");
+      showScreen("login");
+      // clear inputs
+      el("inpPass").value = "";
+    };
+
+    btnBack.onclick = () => showScreen("home");
+
+    /***********************
+     * Topbar mini
+     ***********************/
+    btnUserTag.onclick = () => {
+      // Quick refresh home
+      if (!screenHome.classList.contains("hide")) loadHome();
+    };
+
+    /***********************
+     * Helpers
+     ***********************/
+    function normalizeUser(s){
+      return String(s||"").trim().replace(/\s+/g,"").replace(/@vietinbank\.vn$/i,"");
+    }
+    function escapeHtml(s){
+      return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+    function fmtTime(ms){
+      try{
+        const d = new Date(Number(ms)||Date.now());
+        const pad = n => String(n).padStart(2,"0");
+        return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} ${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+      }catch(e){ return "-"; }
+    }
+    function starSvg(){
+      return `
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2.5l2.9 6.2 6.8.6-5.1 4.4 1.5 6.6L12 16.9 5.9 20.3l1.5-6.6-5.1-4.4 6.8-.6L12 2.5z"
+            fill="rgba(245,158,11,.95)" stroke="rgba(245,158,11,.95)" stroke-width="0.6"/>
+        </svg>`;
+    }
+
+    /***********************
+     * Init
+     ***********************/
+    (function init(){
+      // Put URL into admin web tab
+      el("inpWebAppUrl").value = CONFIG.WEB_APP_URL;
+      el("webHint").textContent = "Nếu đổi deploy URL, chỉ cần sửa CONFIG.WEB_APP_URL trong file HTML này.";
+
+      // route
+      if (loadSession()){
+        showToast("Đang khôi phục phiên…", "warn");
+        loadHome();
+      } else {
+        showScreen("login");
+      }
+    })();
+  </script>
+</body>
+</html>
